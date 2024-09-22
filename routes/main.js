@@ -10,11 +10,17 @@ router.post('/guess/:character', async (req, res) => {
     let correctY = null;
 
     if (character === 'waldo') {
+        correctX = 1340;
+        correctY = 840;
+    } else if (character === 'wenda') {
         correctX = 773;
         correctY = 529;   
     } else if (character === 'wizard') {
         correctX = 115;
         correctY = 864;
+    } else if (character === 'odlaw') {
+        correctX = 503;
+        correctY = 745;
     } else {
         return res.status(400).json({ message: "Invalid character" });
     }
@@ -32,11 +38,24 @@ router.post('/guess/:character', async (req, res) => {
 
 router.post('/addtime', async (req, res) => {
     try {
-        const playername = req.body.playerName;
+        let playername = req.body.playerName;
         const time = req.body.time;
+
+        if (!playername) {
+            playername = 'Anonymus'
+        }
     
         await pool.query('INSERT INTO times (playername, time) VALUES ($1, $2)', [playername, time]);
         res.json({ message: 'successful database operation'});    
+    } catch (err) {
+        console.error(err);
+    }
+});
+
+router.get('/high-scores', async (req, res) => {
+    try {
+        const scores = await pool.query('SELECT * FROM times ORDER BY time');
+        res.json(scores.rows);
     } catch (err) {
         console.error(err);
     }
