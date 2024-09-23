@@ -10,24 +10,24 @@ router.post('/guess/:character', async (req, res) => {
     let correctY = null;
 
     if (character === 'waldo') {
-        correctX = 1340;
-        correctY = 840;
+        correctX = 85.3;
+        correctY = 73; 
     } else if (character === 'wenda') {
-        correctX = 773;
-        correctY = 529;   
+        correctX = 48;
+        correctY = 42;   
     } else if (character === 'wizard') {
-        correctX = 115;
-        correctY = 864;
+        correctX = 6.2;
+        correctY = 75;
     } else if (character === 'odlaw') {
-        correctX = 503;
-        correctY = 745;
+        correctX = 31.6;
+        correctY = 63.8;
     } else {
         return res.status(400).json({ message: "Invalid character" });
     }
 
     if (
-        guessX >= correctX - 40 && guessX <= correctX + 40 &&
-        guessY >= correctY - 40 && guessY <= correctY + 40
+        guessX >= correctX - 1.1 && guessX <= correctX + 1.1 &&
+        guessY >= correctY - 4 && guessY <= correctY + 4
     ) {
         res.json({ success: true, message: 'Correct!' }); 
     } else {
